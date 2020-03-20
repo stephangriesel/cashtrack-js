@@ -6,15 +6,20 @@ const form = document.getElementById('form');
 const text = document.getElementById('text');
 const amount = document.getElementById('amount');
 
-const testData = [
-    { id: 1, text: 'Cheese', amount: -2 },
-    { id: 2, text: 'Dog Walks', amount: 20 },
-    { id: 3, text: 'Kit-Kat', amount: -100 },
-    { id: 4, text: 'Review', amount: 15 }
-];
+// const testData = [
+//     { id: 1, text: 'Cheese', amount: -2 },
+//     { id: 2, text: 'Dog Walks', amount: 20 },
+//     { id: 3, text: 'Kit-Kat', amount: -100 },
+//     { id: 4, text: 'Review', amount: 15 }
+// ];
 
-let transactions = testData;
-console.log(transactions);
+// let transactions = testData;
+// console.log(transactions);
+
+const localStorageTransactions = JSON.parse(localStorage.getItem('transactions'));
+
+let transactions = localStorage.getItem('transactions') !== null ? localStorageTransactions : [];
+
 
 // Add transaction
 function addTransaction(e) {
@@ -36,6 +41,8 @@ function addTransaction(e) {
         addTransactionDOM(transaction);
 
         updateValues();
+
+        updateLocalStorage();
 
         text.value = '';
         amount.value = '';
@@ -98,7 +105,15 @@ function updateValues() {
 function removeTransaction(id) {
     // for each transaction check transaction id and see if it is not equal to id passed in
     transactions = transactions.filter(transaction => transaction.id !== id);
+
+    updateLocalStorage();
+
     init();
+}
+
+//  Update local storage transactions
+function updateLocalStorage() {
+    localStorage.setItem('transactions', JSON.stringify(transactions));
 }
 
 // Initialization
