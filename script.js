@@ -60,7 +60,7 @@ function addTransactionDOM(transaction) {
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/abs
     item.innerHTML = `
         ${transaction.text} <span>${sign}${Math.abs(transaction.amount)}</span> 
-        <button class="delete-btn">x</button>
+        <button class="delete-btn" onclick="removeTransaction(${transaction.id})">x</button>
     `;
 
     list.appendChild(item);
@@ -92,6 +92,13 @@ function updateValues() {
     balance.innerText = `€${total}`;
     money_plus.innerText = `€${income}`;
     money_minus.innerText = `€${expense}`;
+}
+
+// Remove transactions
+function removeTransaction(id) {
+    // for each transaction check transaction id and see if it is not equal to id passed in
+    transactions = transactions.filter(transaction => transaction.id !== id);
+    init();
 }
 
 // Initialization
