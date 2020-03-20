@@ -16,6 +16,37 @@ const testData = [
 let transactions = testData;
 console.log(transactions);
 
+// Add transaction
+function addTransaction(e) {
+    e.preventDefault();
+
+    if (text.value.trim() === '' || amount.value.trim() === '') {
+        console.log('Enter text and amount');
+    } else {
+        const transaction = {
+            id: generateID(),
+            text: text.value,
+            amount: +amount.value // add + in front to change it from string to number
+        }
+
+        console.log(transaction);
+
+        transactions.push(transaction);
+
+        addTransactionDOM(transaction);
+
+        updateValues();
+
+        text.value = '';
+        amount.value = '';
+    }
+}
+
+// Generate random ID
+function generateID() {
+    return Math.floor(Math.random() * 1000000000);
+}
+
 // Add to DOM list
 function addTransactionDOM(transaction) {
     // Is it income or expense?
@@ -38,6 +69,8 @@ function addTransactionDOM(transaction) {
 // Update the balance income and expense
 function updateValues() {
     const amounts = transactions.map(transaction => transaction.amount);
+
+
 
     const total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2);
 
@@ -70,3 +103,6 @@ function init() {
 }
 
 init();
+
+// Event Listeners
+form.addEventListener('submit', addTransaction);
